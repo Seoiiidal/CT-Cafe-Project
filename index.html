@@ -1,12 +1,85 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Portfolio</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>네이버 지도</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<style>
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+#map {
+  height: 100%;
+}
+
+.info-window {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  background-color: white;
+  padding: 10px;
+  border: 1px solid black;
+}
+
+.info-window .title {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.info-window .address {
+  font-size: 12px;
+}
+
+.info-window .close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 20px;
+  height: 20px;
+  background-color: red;
+  border-radius: 50%;
+  cursor: pointer;
+}
+</style>
 </head>
 <body>
-  <p>Hello, World!</p>
+<div id="map"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.12.0/p5.min.js"></script>
+<script>
+var map;
+var infoWindow;
+
+function setup() {
+  map = new p5.Map("map", 37.5665, 126.9783, 1200, 800);
+  infoWindow = new p5.InfoWindow();
+}
+
+function draw() {
+  map.draw();
+
+  // 마커 추가
+  var marker = new p5.Marker(37.5665, 126.9783);
+  map.addLayer(marker);
+
+  // 마커에 정보 창 추가
+  infoWindow.setPosition(marker.x, marker.y);
+  infoWindow.setContent("<h3>네이버 지도</h3><p>서울특별시 종로구 종로 101</p>");
+  infoWindow.open(map);
+}
+
+function mouseClicked() {
+  // 마우스 클릭 위치에 마커 추가
+  var marker = new p5.Marker(mouseX, mouseY);
+  map.addLayer(marker);
+
+  // 마커에 정보 창 추가
+  infoWindow.setPosition(marker.x, marker.y);
+  infoWindow.setContent("<h3>네이버 지도</h3><p>클릭한 위치</p>");
+  infoWindow.open(map);
+}
+</script>
 </body>
 </html>
